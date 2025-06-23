@@ -1,12 +1,13 @@
 {
-  "functions": {
-    "api/mexc-price.ts": {
-      "maxDuration": 10
+  "rewrites": [
+    {
+      "source": "/open/api/v2/(.*)",
+      "destination": "https://www.mexc.com/open/api/v2/$1"
     }
-  },
+  ],
   "headers": [
     {
-      "source": "/api/(.*)",
+      "source": "/open/api/v2/(.*)",
       "headers": [
         {
           "key": "Access-Control-Allow-Origin",
