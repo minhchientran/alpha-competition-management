@@ -10,8 +10,7 @@ export const useMexcPrice = (symbol: string) => {
         setError('');
 
         try {
-            const pair = symbol.toUpperCase() + "_USDT";
-            const url = `/open/api/v2/market/ticker?symbol=${pair}`;
+            const url = `/api/mexc-price?symbol=${encodeURIComponent(symbol)}`;
             const response = await fetch(url);
 
             if (!response.ok) {
