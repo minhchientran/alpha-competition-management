@@ -32,6 +32,7 @@ function App() {
           ↑
         </button>
       )}
+      <div className="copyright-text">© 71 Ambition</div>
     </div>
   );
 }
