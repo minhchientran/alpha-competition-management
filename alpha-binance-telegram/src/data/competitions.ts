@@ -1,0 +1,25 @@
+export interface Competition {
+    id: number;
+    tokenName: string;
+    condition: string;
+    deadline: string;
+    reward: number;
+}
+
+export const competitionsData: Competition[] = [
+    { id: 1, tokenName: 'SQD', condition: 'Top 13000', deadline: '16/06/2025', reward: 340 },
+    { id: 2, tokenName: 'ZRC', condition: 'Top 12500', deadline: '17/06/2025', reward: 2200 },
+    { id: 3, tokenName: 'LA', condition: 'Top 12500', deadline: '20/06/2025', reward: 61 },
+    { id: 4, tokenName: 'RDO', condition: 'Top 13000', deadline: '20/06/2025', reward: 7692 },
+    { id: 5, tokenName: 'RWA', condition: 'Top 8000', deadline: '20/06/2025', reward: 9241 },
+    { id: 6, tokenName: 'BDXN', condition: 'Top 8000', deadline: '20/06/2025', reward: 1250 },
+    { id: 7, tokenName: 'ELDE', condition: 'Top 1300', deadline: '20/06/2025', reward: 1083 },
+    { id: 8, tokenName: 'TGT', condition: 'Top 3300', deadline: '20/06/2025', reward: 1515 },
+    { id: 9, tokenName: 'AB', condition: 'Top 12500', deadline: '21/06/2025', reward: 9200 },
+    { id: 10, tokenName: 'OL', condition: 'Top 10000', deadline: '22/06/2025', reward: 1600 },
+    { id: 11, tokenName: 'PUNDIAI', condition: 'Top 12500', deadline: '26/06/2025', reward: 8.56 },
+    { id: 12, tokenName: 'ROAM', condition: 'Top 12300', deadline: '27/06/2025', reward: 400 },
+    { id: 13, tokenName: 'VELO', condition: 'Top 12500', deadline: '30/06/2025', reward: 6100 },
+    { id: 14, tokenName: 'AVAIL', condition: 'Top 12500', deadline: '04/07/2025', reward: 2600 },
+    { id: 15, tokenName: 'CARV', condition: 'Top 8300', deadline: '07/07/2025', reward: 360 },
+]; 

@@ -1,0 +1,65 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.wrapper-project {
+    background-color: black;
+    color: white;
+    padding: 10px;
+    font-size: 20px;
+
+    button {
+        background-color: lime;
+        font-weight: bold;
+        color: white;
+        padding: 10px;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+    }
+}
+
+body {
+    background-color: orange;
+}
+
+.expired-row {
+    color: red;
+}
+
+.background-71 {
+    background-image: url('../public/title-bg.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #717171;
+    background-blend-mode: multiply;
+    min-height: 200px;
+
+    @media screen and (max-width: 1024px) {
+        min-height: 500px;
+    }
+
+    @media screen and (max-width: 768px) {
+        min-height: 300px;
+    }
+
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: yellow;
+}
+
+.low-50 {
+    color: red;
+}
+
+.low-50 {
+    color: orange;
+}
+
+.normal-prize {
+    color: lime;
+}
