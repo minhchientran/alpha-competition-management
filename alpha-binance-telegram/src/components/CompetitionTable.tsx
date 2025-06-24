@@ -32,8 +32,8 @@ const CompetitionTable = () => {
     // Filter competitions based on debounced search term
     const filteredCompetitions = useMemo(() => {
         if (!debouncedSearchTerm.trim()) return competitionsData;
-        
-        return competitionsData.filter(comp => 
+
+        return competitionsData.filter(comp =>
             comp.tokenName.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
         );
     }, [debouncedSearchTerm]);
@@ -46,11 +46,17 @@ const CompetitionTable = () => {
             let aValue: any, bValue: any;
 
             if (sortField === 'deadline') {
-                // Convert deadline string to Date for comparison
-                const [aDay, aMonth, aYear] = a.deadline.split('/').map(Number);
-                const [bDay, bMonth, bYear] = b.deadline.split('/').map(Number);
-                aValue = new Date(aYear, aMonth - 1, aDay);
-                bValue = new Date(bYear, bMonth - 1, bDay);
+                // Convert deadline datetime string to Date for comparison
+                // Parse datetime format: "DD/MM/YYYY HH:MM:SS"
+                const parseDeadline = (deadline: string) => {
+                    const [datePart, timePart] = deadline.split(' ');
+                    const [day, month, year] = datePart.split('/').map(Number);
+                    const [hours, minutes, seconds] = timePart ? timePart.split(':').map(Number) : [0, 0, 0];
+                    return new Date(year, month - 1, day, hours, minutes, seconds);
+                };
+
+                aValue = parseDeadline(a.deadline);
+                bValue = parseDeadline(b.deadline);
             } else if (sortField === 'reward') {
                 aValue = a.reward;
                 bValue = b.reward;
@@ -86,7 +92,7 @@ const CompetitionTable = () => {
                 <h1 className="text-4xl text-center mb-4 font-bold">Alpha Competition</h1>
                 <Clock />
             </div>
-            
+
             {/* Search and Sort Controls */}
             <div className="mb-4 space-y-3">
                 {/* Search Input */}
@@ -112,28 +118,26 @@ const CompetitionTable = () => {
                 <div className="flex wrapper-sort-buttons">
                     <button
                         onClick={() => handleSort('deadline')}
-                        className={`flex-1 px-3 py-2 text-sm font-medium rounded-lg border transition-colors btn-deadline ${
-                            sortField === 'deadline'
-                                ? 'bg-blue-500 text-white border-blue-500'
-                                : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
-                        }`}
+                        className={`flex-1 px-3 py-2 text-sm font-medium rounded-lg border transition-colors btn-deadline ${sortField === 'deadline'
+                            ? 'bg-blue-500 text-white border-blue-500'
+                            : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                            }`}
                     >
                         Deadline {getSortIcon('deadline')}
                     </button>
                     <button
                         onClick={() => handleSort('calculatedPrize')}
-                        className={`flex-1 px-3 py-2 text-sm font-medium rounded-lg border transition-colors btn-prize ${
-                            sortField === 'calculatedPrize'
-                                ? 'bg-blue-500 text-white border-blue-500'
-                                : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
-                        }`}
+                        className={`flex-1 px-3 py-2 text-sm font-medium rounded-lg border transition-colors btn-prize ${sortField === 'calculatedPrize'
+                            ? 'bg-blue-500 text-white border-blue-500'
+                            : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                            }`}
                     >
                         Prize Value {getSortIcon('calculatedPrize')}
                     </button>
                 </div>
 
                 {/* Results Count */}
-                <div className="text-sm text-gray-600">
+                <div className="text-sm text-gray-600 display-title">
                     Hiển thị {sortedCompetitions.length} / {competitionsData.length} kết quả
                 </div>
             </div>
