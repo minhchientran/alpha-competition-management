@@ -13,6 +13,7 @@ const CompetitionTable = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [sortField, setSortField] = useState<SortField>(null);
     const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
+    const [hideExpired, setHideExpired] = useState(false);
 
     // Debounce search term with 300ms delay
     const debouncedSearchTerm = useDebounce(searchTerm, 300);
@@ -29,14 +30,34 @@ const CompetitionTable = () => {
         setTriggerFetch(prev => prev + 1);
     };
 
-    // Filter competitions based on debounced search term
-    const filteredCompetitions = useMemo(() => {
-        if (!debouncedSearchTerm.trim()) return competitionsData;
+    // Helper function to check if a competition is expired
+    const isExpired = (deadline: string) => {
+        const [datePart, timePart] = deadline.split(' ');
+        const [day, month, year] = datePart.split('/').map(Number);
+        const [hours, minutes, seconds] = timePart ? timePart.split(':').map(Number) : [0, 0, 0];
+        const deadlineDate = new Date(year, month - 1, day, hours, minutes, seconds);
+        const today = new Date();
+        return deadlineDate < today;
+    };
 
-        return competitionsData.filter(comp =>
-            comp.tokenName.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
-        );
-    }, [debouncedSearchTerm]);
+    // Filter competitions based on debounced search term and hide expired option
+    const filteredCompetitions = useMemo(() => {
+        let filtered = competitionsData;
+
+        // Filter by search term
+        if (debouncedSearchTerm.trim()) {
+            filtered = filtered.filter(comp =>
+                comp.tokenName.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
+            );
+        }
+
+        // Filter out expired competitions if hideExpired is true
+        if (hideExpired) {
+            filtered = filtered.filter(comp => !isExpired(comp.deadline));
+        }
+
+        return filtered;
+    }, [debouncedSearchTerm, hideExpired]);
 
     // Sort competitions
     const sortedCompetitions = useMemo(() => {
@@ -133,6 +154,19 @@ const CompetitionTable = () => {
                             }`}
                     >
                         Prize Value {getSortIcon('calculatedPrize')}
+                    </button>
+                </div>
+
+                {/* Hide Expired Toggle */}
+                <div className="flex justify-center hide-expired-button">
+                    <button
+                        onClick={() => setHideExpired(!hideExpired)}
+                        className={`btn-hide-expired px-4 py-2 text-sm font-medium rounded-lg border transition-colors ${hideExpired
+                            ? 'bg-green-500 text-white border-green-500'
+                            : 'bg-gray-500 text-white border-gray-500'
+                            }`}
+                    >
+                        {hideExpired ? '🔒 Ẩn hết hạn' : '👁️ Hiện tất cả'}
                     </button>
                 </div>
 
