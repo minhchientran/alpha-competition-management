@@ -2,6 +2,7 @@ import { useState, useCallback } from 'react';
 
 export const useMexcPrice = (symbol: string) => {
     const [price, setPrice] = useState<number | null>(null);
+    const [changeRate, setChangeRate] = useState<number | null>(null);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
 
@@ -26,23 +27,29 @@ export const useMexcPrice = (symbol: string) => {
 
             if (data?.data?.[0]?.last) {
                 const parsedPrice = parseFloat(data.data[0].last);
+                const parsedChangeRate = parseFloat(data.data[0].change_rate);
+                
                 if (Number.isFinite(parsedPrice)) {
                     setPrice(parsedPrice);
+                    setChangeRate(Number.isFinite(parsedChangeRate) ? parsedChangeRate : null);
                 } else {
                     setError(`Invalid price for ${symbol.toUpperCase()}`);
                     setPrice(null);
+                    setChangeRate(null);
                 }
             } else {
                 setError(`Price not found for ${symbol.toUpperCase()}`);
                 setPrice(null);
+                setChangeRate(null);
             }
         } catch (err: any) {
             setError(err.message);
             setPrice(null);
+            setChangeRate(null);
         } finally {
             setLoading(false);
         }
     }, [symbol]);
 
-    return { price, loading, error, fetchPrice };
+    return { price, changeRate, loading, error, fetchPrice };
 }; 

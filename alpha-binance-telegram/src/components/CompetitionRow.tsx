@@ -64,7 +64,7 @@ const CountdownTimer = ({ deadline }: { deadline: string }) => {
 };
 
 const CompetitionRow = ({ rowData, triggerFetch, onPriceUpdate }: CompetitionRowProps) => {
-    const { price, loading, error, fetchPrice } = useMexcPrice(rowData.tokenName);
+    const { price, changeRate, loading, error, fetchPrice } = useMexcPrice(rowData.tokenName);
 
     useEffect(() => {
         fetchPrice();
@@ -98,13 +98,31 @@ const CompetitionRow = ({ rowData, triggerFetch, onPriceUpdate }: CompetitionRow
     const isLow50 = estimatedPrize > 0 && estimatedPrize < 50;
     const isLow20 = estimatedPrize > 0 && estimatedPrize < 20;
 
+    // Format percentage change
+    const formatChangeRate = (rate: number | null) => {
+        if (rate === null) return '';
+        const percentage = (rate * 100).toFixed(2);
+        const isPositive = rate >= 0;
+        return `${isPositive ? '+' : ''}${percentage}%`;
+    };
+
+    const changeRateText = formatChangeRate(changeRate);
+    const isPositiveChange = changeRate !== null && changeRate >= 0;
+
     return (
         <div className={`border-b border-black pb-3 mb-4`}>
             <div className="flex justify-between items-baseline mb-2">
                 <h3 className={`token-name font-bold text-2xl ${hasExpired ? '' : 'text-black'}`}>{rowData.tokenName}</h3>
-                <span className={`font-bold text-lg p-1 rounded ${isLow50 ? 'low-50' : 'normal-prize'} ${isLow20 ? 'low-20' : ''}`}>
-                    {loading ? '...' : (estimatedPrize > 0 ? `$${estimatedPrize.toFixed(2)}` : '...')}
-                </span>
+                <div className="text-right price-and-change-rate">
+                    <div className={`font-bold text-lg p-1 rounded ${isLow50 ? 'low-50' : 'normal-prize'} ${isLow20 ? 'low-20' : ''}`}>
+                        {loading ? '...' : (estimatedPrize > 0 ? `$${estimatedPrize.toFixed(2)}` : '...')} 
+                    </div>
+                    {changeRateText && (
+                        <div className={`rate-text text-sm ${isPositiveChange ? 'text-green-600' : 'text-red-600'}`}>
+                            {changeRateText}
+                        </div>
+                    )}
+                </div>
             </div>
             <div className="grid grid-cols-2 text-base ml-4 card-competition-info">
                 <div>Điều kiện</div>
@@ -112,7 +130,6 @@ const CompetitionRow = ({ rowData, triggerFetch, onPriceUpdate }: CompetitionRow
                 <div>Deadline</div>
                 <div className={`text-right ${hasExpired ? 'expired-row' : ''}`}>
                     {rowData.deadline}
-
                 </div>
                 <div>Còn lại</div>
                 <div className="mt-1">
@@ -120,7 +137,7 @@ const CompetitionRow = ({ rowData, triggerFetch, onPriceUpdate }: CompetitionRow
                 </div>
                 <div>Phần thưởng</div>
                 <div className="text-right">{rowData.reward.toLocaleString()}</div>
-                <div>Giá MEXC</div>
+                <div>Giá hiện tại</div>
                 <div className="text-right">
                     {loading ? '...' : (error ? <span className="text-red-500">{error}</span> : price)}
                 </div>

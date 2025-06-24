@@ -145,7 +145,7 @@ const CompetitionTable = () => {
                             }`}
                     >
                         Deadline {getSortIcon('deadline')}
-                    </button>
+                    </button> 
                     <button
                         onClick={() => handleSort('calculatedPrize')}
                         className={`flex-1 px-3 py-2 text-sm font-medium rounded-lg border transition-colors btn-prize ${sortField === 'calculatedPrize'

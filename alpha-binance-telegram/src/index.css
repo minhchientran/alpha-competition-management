@@ -210,7 +210,6 @@ body {
 .expired-row {
     color: #ff4444;
     text-shadow: 0 0 10px rgba(255, 68, 68, 0.5);
-    animation: pulse-3d 2s ease-in-out infinite;
 }
 
 .background-71 {
@@ -222,8 +221,6 @@ body {
     background-blend-mode: multiply;
     min-height: 200px;
     transform-style: preserve-3d;
-    animation: float 6s ease-in-out infinite;
-
     @media screen and (max-width: 1024px) {
         min-height: 500px;
     }
@@ -485,4 +482,20 @@ body {
 
 .hide-expired-button {
     margin-top: 8px;
+}
+.price-and-change-rate{
+    display: relative;
+    .text-green-600{
+        color: #00ff88;
+    }
+    .text-red-600{
+        color: #ff4444;
+    }
+
+    .rate-text{
+        position: absolute;
+        right: 5%;
+        top: 12%;
+        font-size: 12px;
+    }
 }
