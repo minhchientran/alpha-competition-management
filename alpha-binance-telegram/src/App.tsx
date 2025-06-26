@@ -6,9 +6,9 @@ function App() {
   const [showBackToTop, setShowBackToTop] = useState(false);
   // const [showMysteryBox, setShowMysteryBox] = useState(false);
 
-  // const handleScroll = () => {
-  //   setShowBackToTop(window.scrollY > 100);
-  // };
+  const handleScroll = () => {
+    setShowBackToTop(window.scrollY > 100);
+  };
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -20,17 +20,17 @@ function App() {
   //   localStorage.setItem('mysteryBoxDismissedAt', Date.now().toString());
   // };
 
-  // useEffect(() => {
-  //   window.addEventListener('scroll', handleScroll);
-  //   // Only show the box if not dismissed in the last 24 hours
-  //   const dismissedAt = localStorage.getItem('mysteryBoxDismissedAt');
-  //   if (!dismissedAt || (Date.now() - parseInt(dismissedAt, 10)) > 24 * 60 * 60 * 1000) {
-  //     setShowMysteryBox(true);
-  //   }
-  //   return () => {
-  //     window.removeEventListener('scroll', handleScroll);
-  //   };
-  // }, []);
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    // Only show the box if not dismissed in the last 24 hours
+    // const dismissedAt = localStorage.getItem('mysteryBoxDismissedAt');
+    // if (!dismissedAt || (Date.now() - parseInt(dismissedAt, 10)) > 24 * 60 * 60 * 1000) {
+    //   setShowMysteryBox(true);
+    // }
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   return (
     <div className="bg-white text-black min-h-screen font-serif wrapper-project">
