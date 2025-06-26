@@ -50,8 +50,8 @@ function App() {
       {/* Mystery Box Giveaway - only show if not dismissed */}
       {/* {showMysteryBox && (
         <MysteryBox onClose={handleMysteryBoxClose} />
-      )}
-      <div className="copyright-text">© 71 Ambition</div> */}
+      )} */}
+      <div className="copyright-text">© 71 Ambition</div>
     </div>
   );
 }
