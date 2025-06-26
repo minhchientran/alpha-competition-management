@@ -48,10 +48,10 @@ function App() {
         </button>
       )}
       {/* Mystery Box Giveaway - only show if not dismissed */}
-      {showMysteryBox && (
+      {/* {showMysteryBox && (
         <MysteryBox onClose={handleMysteryBoxClose} />
       )}
-      <div className="copyright-text">© 71 Ambition</div>
+      <div className="copyright-text">© 71 Ambition</div> */}
     </div>
   );
 }
