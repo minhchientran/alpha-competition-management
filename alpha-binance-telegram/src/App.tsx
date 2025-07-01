@@ -54,7 +54,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen wrapper-project">
+    <div className="min-h-screen p-2 wrapper-project">
       <main className="max-w-md mx-auto p-4">
         <div className="flex justify-end mb-2">
           <button
