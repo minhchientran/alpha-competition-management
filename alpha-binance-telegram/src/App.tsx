@@ -33,7 +33,7 @@ function App() {
   }, []);
 
   return (
-    <div className="bg-white text-black min-h-screen wrapper-project">
+    <div className="min-h-screen wrapper-project">
       <main className="max-w-md mx-auto p-4">
         <CompetitionTable />
       </main>

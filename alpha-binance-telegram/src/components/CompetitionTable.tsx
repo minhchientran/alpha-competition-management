@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useEffect } from "react";
 import { competitionsData } from "../data/competitions";
 import CompetitionRow from "./CompetitionRow";
 import Clock from "./Clock";
@@ -14,7 +14,10 @@ const CompetitionTable = () => {
     const [sortField, setSortField] = useState<SortField>(null);
     const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
     const [hideExpired, setHideExpired] = useState(false);
-    const [selectedTokens, setSelectedTokens] = useState<string[]>(['all']);
+    const [selectedTokens, setSelectedTokens] = useState<string[]>(() => {
+        const stored = localStorage.getItem('selectedTokens');
+        return stored ? JSON.parse(stored) : ['all'];
+    });
     const [showTokenFilter, setShowTokenFilter] = useState(false);
 
     // Debounce search term with 300ms delay
@@ -151,6 +154,11 @@ const CompetitionTable = () => {
         if (sortField !== field) return '↕️';
         return sortDirection === 'asc' ? '↑' : '↓';
     };
+
+    // Persist selectedTokens to localStorage whenever it changes
+    useEffect(() => {
+        localStorage.setItem('selectedTokens', JSON.stringify(selectedTokens));
+    }, [selectedTokens]);
 
     return (
         <div>
