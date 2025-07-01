@@ -63,7 +63,6 @@ body {
 
 .wrapper-project {
     background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #000000 100%);
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
     color: white;
     padding: 10px;
     font-size: 20px;
