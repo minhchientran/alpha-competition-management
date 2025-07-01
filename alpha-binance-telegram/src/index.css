@@ -518,8 +518,8 @@ body {
 }
 
 .token-name {
-    color: #ffff00;
-    text-shadow: 0 0 15px rgba(255, 255, 0, 0.7);
+    color: #c2ae00ad;
+    text-shadow: 0 0 15px rgba(241, 237, 237, 0.7);
     transition: all 0.3s ease;
     transform-style: preserve-3d;
 }
