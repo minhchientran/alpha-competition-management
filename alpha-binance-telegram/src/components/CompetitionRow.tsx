@@ -129,7 +129,7 @@ const CompetitionRow = ({ rowData, triggerFetch, onPriceUpdate }: CompetitionRow
                 <div className="text-right">{rowData.condition}</div>
                 <div>Deadline</div>
                 <div className={`text-right ${hasExpired ? 'expired-row' : ''}`}>
-                    {rowData.deadline}
+                    {rowData.deadline}  
                 </div>
                 <div>Còn lại</div>
                 <div className="mt-1">

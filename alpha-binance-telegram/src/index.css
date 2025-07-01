@@ -65,7 +65,7 @@ body {
 }
 
 .wrapper-project {
-    background: #000000; /* fallback for old browsers */
+    background: #000000 !important; /* fallback for old browsers */
     background: -webkit-linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #000000 100%);
     background: -moz-linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #000000 100%);
     background: -o-linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #000000 100%);
