@@ -13,8 +13,6 @@ export const competitionsData: Competition[] = [
     { id: 6, tokenName: 'BDXN', condition: 'Top 8000', deadline: '20/06/2025 23:00:00', reward: 1250 },
     { id: 7, tokenName: 'ELDE', condition: 'Top 1300', deadline: '20/06/2025 23:00:00', reward: 1083 },
     { id: 8, tokenName: 'TGT', condition: 'Top 3300', deadline: '20/06/2025 23:00:00', reward: 1515 },
-    { id: 9, tokenName: 'AB', condition: 'Top 12500', deadline: '21/06/2025 13:00:00', reward: 9200 },
-    { id: 10, tokenName: 'OL', condition: 'Top 10000', deadline: '22/06/2025 13:00:00', reward: 1600 },
     { id: 11, tokenName: 'PUNDIAI', condition: 'Top 12500', deadline: '26/06/2025 14:00:00', reward: 8.56 },
     { id: 12, tokenName: 'ROAM', condition: 'Top 12300', deadline: '27/06/2025 20:00:00', reward: 400 },
     { id: 13, tokenName: 'VELO', condition: 'Top 12500', deadline: '30/06/2025 14:00:00', reward: 6100 },
