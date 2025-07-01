@@ -4,7 +4,24 @@ import CompetitionTable from "./components/CompetitionTable";
 
 function App() {
   const [showBackToTop, setShowBackToTop] = useState(false);
+  const [theme, setTheme] = useState(() => {
+    const stored = localStorage.getItem('theme');
+    return stored ? stored : 'dark';
+  });
   // const [showMysteryBox, setShowMysteryBox] = useState(false);
+
+  useEffect(() => {
+    // Set theme class on <html>
+    const root = document.documentElement;
+    if (theme === 'dark') {
+      root.classList.add('dark');
+      root.classList.remove('light');
+    } else {
+      root.classList.remove('dark');
+      root.classList.add('light');
+    }
+    localStorage.setItem('theme', theme);
+  }, [theme]);
 
   const handleScroll = () => {
     setShowBackToTop(window.scrollY > 100);
@@ -32,9 +49,22 @@ function App() {
     };
   }, []);
 
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
+  };
+
   return (
     <div className="min-h-screen wrapper-project">
       <main className="max-w-md mx-auto p-4">
+        <div className="flex justify-end mb-2">
+          <button
+            onClick={toggleTheme}
+            className="theme-toggle-btn"
+            title="Toggle dark/light mode"
+          >
+            {theme === 'dark' ? '🌙 Dark' : '☀️ Light'}
+          </button>
+        </div>
         <CompetitionTable />
       </main>
 
