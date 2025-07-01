@@ -14,6 +14,8 @@ const CompetitionTable = () => {
     const [sortField, setSortField] = useState<SortField>(null);
     const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
     const [hideExpired, setHideExpired] = useState(false);
+    const [selectedTokens, setSelectedTokens] = useState<string[]>(['all']);
+    const [showTokenFilter, setShowTokenFilter] = useState(false);
 
     // Debounce search term with 300ms delay
     const debouncedSearchTerm = useDebounce(searchTerm, 300);
@@ -22,9 +24,52 @@ const CompetitionTable = () => {
         setPrizes(prev => ({ ...prev, [id]: prize }));
     }, []);
 
-    const totalPrize = Object.values(prizes)
-        .filter(prize => Number.isFinite(prize))
-        .reduce((sum, prize) => sum + prize, 0);
+    // Get unique token names for dropdown
+    const tokenNames = useMemo(() => {
+        const names = competitionsData.map(comp => comp.tokenName);
+        return ['all', ...Array.from(new Set(names))];
+    }, []);
+
+    // Handle token selection/deselection
+    const handleTokenSelection = (token: string) => {
+        if (token === 'all') {
+            // If "all" is selected, clear other selections
+            setSelectedTokens(['all']);
+        } else {
+            setSelectedTokens(prev => {
+                // Remove "all" if it was selected
+                const withoutAll = prev.filter(t => t !== 'all');
+
+                if (withoutAll.includes(token)) {
+                    // Remove token if already selected
+                    const newSelection = withoutAll.filter(t => t !== token);
+                    // If no tokens selected, default to "all"
+                    return newSelection.length > 0 ? newSelection : ['all'];
+                } else {
+                    // Add token to selection
+                    return [...withoutAll, token];
+                }
+            });
+        }
+    };
+
+    // Calculate total prize based on selected tokens
+    const totalPrize = useMemo(() => {
+        if (selectedTokens.includes('all')) {
+            // Sum all prizes
+            return Object.values(prizes)
+                .filter(prize => Number.isFinite(prize))
+                .reduce((sum, prize) => sum + prize, 0);
+        } else {
+            // Sum only prizes for selected tokens
+            return competitionsData
+                .filter(comp => selectedTokens.includes(comp.tokenName))
+                .reduce((sum, comp) => {
+                    const prize = prizes[comp.id];
+                    return sum + (Number.isFinite(prize) ? prize : 0);
+                }, 0);
+        }
+    }, [prizes, selectedTokens]);
 
     const handleReload = () => {
         setTriggerFetch(prev => prev + 1);
@@ -145,7 +190,7 @@ const CompetitionTable = () => {
                             }`}
                     >
                         Deadline {getSortIcon('deadline')}
-                    </button> 
+                    </button>
                     <button
                         onClick={() => handleSort('calculatedPrize')}
                         className={`flex-1 px-3 py-2 text-sm font-medium rounded-lg border transition-colors btn-prize ${sortField === 'calculatedPrize'
@@ -178,16 +223,71 @@ const CompetitionTable = () => {
 
             <div className="flex items-center justify-between mb-2 border-b border-black pb-2">
                 <div className="text-lg normal-prize">
-                    <span>Tổng: </span>
+                    <span>
+                        {selectedTokens.includes('all')
+                            ? 'Tổng: '
+                            : selectedTokens.length === 1
+                                ? `Tổng ${selectedTokens[0]}: `
+                                : selectedTokens.length <= 3
+                                    ? `Tổng (${selectedTokens.join(', ')}): `
+                                    : `Tổng (${selectedTokens.length} tokens): `
+                        }
+                    </span>
                     <span className="font-bold">${totalPrize.toFixed(2)}</span>
                 </div>
-                <button
-                    onClick={handleReload}
-                    className="btn-refresh border border-gray-400 bg-gray-100 hover:bg-gray-200 text-black font-bold py-1 px-3 rounded"
-                >
-                    Làm mới
-                </button>
+                <div className="flex items-center gap-2">
+                    <button
+                        onClick={() => setShowTokenFilter(!showTokenFilter)}
+                        className="token-filter-toggle-btn"
+                        title="Toggle token filter"
+                    >
+                        {showTokenFilter ? '▼' : '▲'}
+                    </button>
+                    <button
+                        onClick={handleReload}
+                        className="btn-refresh"
+                    >
+                        ⟳
+                    </button>
+                </div>
             </div>
+
+            {/* Collapsible Token Filter */}
+            {showTokenFilter && (
+                <div className="token-filter-section mb-4">
+                    <div className="token-filter-container">
+                        <div className="token-filter-header">
+                            <span>
+                                Chọn tokens:
+                                {!selectedTokens.includes('all') && (
+                                    <span className="selected-count"> ({selectedTokens.length})</span>
+                                )}
+                            </span>
+                            <button
+                                onClick={() => setSelectedTokens(['all'])}
+                                className="select-all-btn"
+                            >
+                                Chọn tất cả
+                            </button>
+                        </div>
+                        <div className="token-filter-options">
+                            {tokenNames.map((token) => (
+                                <label key={token} className="token-option">
+                                    <input
+                                        type="checkbox"
+                                        checked={selectedTokens.includes(token)}
+                                        onChange={() => handleTokenSelection(token)}
+                                        className="token-checkbox"
+                                    />
+                                    <span className="token-label">
+                                        {token === 'all' ? 'Tất cả tokens' : token}
+                                    </span>
+                                </label>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            )}
 
             <div className="mt-4">
                 {sortedCompetitions.length > 0 ? (
