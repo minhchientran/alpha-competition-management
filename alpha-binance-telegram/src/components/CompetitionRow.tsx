@@ -139,7 +139,7 @@ const CompetitionRow = ({ rowData, triggerFetch, onPriceUpdate }: CompetitionRow
                 <div className="text-right">{rowData.reward.toLocaleString()}</div>
                 <div>Giá hiện tại</div>
                 <div className="text-right">
-                    {loading ? '...' : (error ? <span className="text-red-500">{error}</span> : price)}
+                    {loading ? '...' : (error ? <span className="text-red-500">Lỗi lấy giá</span> : price)}
                 </div>
             </div>
         </div>
