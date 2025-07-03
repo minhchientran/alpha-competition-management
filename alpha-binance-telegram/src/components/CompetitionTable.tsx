@@ -4,11 +4,12 @@ import CompetitionRow from "./CompetitionRow";
 import Clock from "./Clock";
 import { useDebounce } from "../hooks/useDebounce";
 
-type SortField = 'deadline' | 'reward' | 'calculatedPrize' | null;
+type SortField = 'deadline' | 'reward' | 'calculatedPrize' | 'percentageChange' | null;
 type SortDirection = 'asc' | 'desc';
 
 const CompetitionTable = () => {
     const [prizes, setPrizes] = useState<Record<number, number>>({});
+    const [changeRates, setChangeRates] = useState<Record<number, number | null>>({});
     const [triggerFetch, setTriggerFetch] = useState(0);
     const [searchTerm, setSearchTerm] = useState('');
     const [sortField, setSortField] = useState<SortField>(null);
@@ -23,8 +24,11 @@ const CompetitionTable = () => {
     // Debounce search term with 300ms delay
     const debouncedSearchTerm = useDebounce(searchTerm, 300);
 
-    const handlePriceUpdate = useCallback((id: number, prize: number) => {
+    const handlePriceUpdate = useCallback((id: number, prize: number, changeRate?: number | null) => {
         setPrizes(prev => ({ ...prev, [id]: prize }));
+        if (changeRate !== undefined) {
+            setChangeRates(prev => ({ ...prev, [id]: changeRate }));
+        }
     }, []);
 
     // Get unique token names for dropdown
@@ -133,13 +137,17 @@ const CompetitionTable = () => {
                 // Use the calculated prize values (price * reward)
                 aValue = prizes[a.id] || 0;
                 bValue = prizes[b.id] || 0;
+            } else if (sortField === 'percentageChange') {
+                // Use the change rate values
+                aValue = changeRates[a.id] || 0;
+                bValue = changeRates[b.id] || 0;
             }
 
             if (aValue < bValue) return sortDirection === 'asc' ? -1 : 1;
             if (aValue > bValue) return sortDirection === 'asc' ? 1 : -1;
             return 0;
         });
-    }, [filteredCompetitions, sortField, sortDirection, prizes]);
+    }, [filteredCompetitions, sortField, sortDirection, prizes, changeRates]);
 
     const handleSort = (field: SortField) => {
         if (sortField === field) {
@@ -151,7 +159,7 @@ const CompetitionTable = () => {
     };
 
     const getSortIcon = (field: SortField) => {
-        if (sortField !== field) return '↕️';
+        if (sortField !== field) return '↕';
         return sortDirection === 'asc' ? '↑' : '↓';
     };
 
@@ -197,7 +205,7 @@ const CompetitionTable = () => {
                             : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
                             }`}
                     >
-                        Deadline {getSortIcon('deadline')}
+                        Ngày {getSortIcon('deadline')}
                     </button>
                     <button
                         onClick={() => handleSort('calculatedPrize')}
@@ -206,7 +214,16 @@ const CompetitionTable = () => {
                             : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
                             }`}
                     >
-                        Prize Value {getSortIcon('calculatedPrize')}
+                        Thưởng {getSortIcon('calculatedPrize')}
+                    </button>
+                    <button
+                        onClick={() => handleSort('percentageChange')}
+                        className={`flex-1 px-3 py-2 text-sm font-medium rounded-lg border transition-colors btn-percentage ${sortField === 'percentageChange'
+                            ? 'bg-blue-500 text-white border-blue-500'
+                            : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                            }`}
+                    >
+                        % {getSortIcon('percentageChange')}
                     </button>
                 </div>
 

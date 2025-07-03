@@ -5,7 +5,7 @@ import { useMexcPrice } from "../hooks/useMexcPrice";
 interface CompetitionRowProps {
     rowData: Competition;
     triggerFetch: number;
-    onPriceUpdate: (id: number, prize: number) => void;
+    onPriceUpdate: (id: number, prize: number, changeRate?: number | null) => void;
 }
 
 const CountdownTimer = ({ deadline }: { deadline: string }) => {
@@ -79,8 +79,8 @@ const CompetitionRow = ({ rowData, triggerFetch, onPriceUpdate }: CompetitionRow
     const estimatedPrize = price ? price * rowData.reward : 0;
 
     useEffect(() => {
-        onPriceUpdate(rowData.id, estimatedPrize);
-    }, [estimatedPrize, onPriceUpdate, rowData.id]);
+        onPriceUpdate(rowData.id, estimatedPrize, changeRate);
+    }, [estimatedPrize, onPriceUpdate, rowData.id, changeRate]);
 
     const isExpired = () => {
         // Parse datetime format: "DD/MM/YYYY HH:MM:SS"
@@ -115,7 +115,7 @@ const CompetitionRow = ({ rowData, triggerFetch, onPriceUpdate }: CompetitionRow
                 <h3 className={`token-name font-bold text-2xl ${hasExpired ? '' : 'text-black'}`}>{rowData.tokenName}</h3>
                 <div className="text-right price-and-change-rate">
                     <div className={`font-bold text-lg p-1 rounded ${isLow50 ? 'low-50' : 'normal-prize'} ${isLow20 ? 'low-20' : ''}`}>
-                        {loading ? '...' : (estimatedPrize > 0 ? `$${estimatedPrize.toFixed(2)}` : '...')} 
+                        {loading ? '...' : (estimatedPrize > 0 ? `$${estimatedPrize.toFixed(2)}` : '...')}
                     </div>
                     {changeRateText && (
                         <div className={`rate-text text-sm ${isPositiveChange ? 'text-green-600' : 'text-red-600'}`}>
@@ -129,7 +129,7 @@ const CompetitionRow = ({ rowData, triggerFetch, onPriceUpdate }: CompetitionRow
                 <div className="text-right">{rowData.condition}</div>
                 <div>Deadline</div>
                 <div className={`text-right ${hasExpired ? 'expired-row' : ''}`}>
-                    {rowData.deadline}  
+                    {rowData.deadline}
                 </div>
                 <div>Còn lại</div>
                 <div className="mt-1">

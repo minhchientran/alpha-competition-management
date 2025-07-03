@@ -113,7 +113,8 @@ body {
     }
 
     .btn-prize,
-    .btn-deadline {
+    .btn-deadline,
+    .btn-percentage {
         background: linear-gradient(145deg, #ff8c00, #ff6b00);
         font-weight: bold;
         color: white;
@@ -132,7 +133,8 @@ body {
     }
 
     .btn-prize::before,
-    .btn-deadline::before {
+    .btn-deadline::before,
+    .btn-percentage::before {
         content: '';
         position: absolute;
         top: 0;
@@ -144,12 +146,14 @@ body {
     }
 
     .btn-prize:hover::before,
-    .btn-deadline:hover::before {
+    .btn-deadline:hover::before,
+    .btn-percentage:hover::before {
         left: 100%;
     }
 
     .btn-prize:hover,
-    .btn-deadline:hover {
+    .btn-deadline:hover,
+    .btn-percentage:hover {
         transform: translateY(-2px) rotateX(8deg) scale(1.03);
         box-shadow:
             0 12px 35px rgba(255, 165, 0, 0.5),
@@ -157,7 +161,8 @@ body {
     }
 
     .btn-prize:active,
-    .btn-deadline:active {
+    .btn-deadline:active,
+    .btn-percentage:active {
         transform: translateY(1px) rotateX(4deg) scale(0.98);
     }
 
