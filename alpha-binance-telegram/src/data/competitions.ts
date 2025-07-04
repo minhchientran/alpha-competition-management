@@ -7,7 +7,6 @@ export interface Competition {
 }
 
 export const competitionsData: Competition[] = [
-    { id: 11, tokenName: 'PUNDIAI', condition: 'Top 12500', deadline: '26/06/2025 14:00:00', reward: 8.56 },
     { id: 12, tokenName: 'ROAM', condition: 'Top 12300', deadline: '27/06/2025 20:00:00', reward: 400 },
     { id: 13, tokenName: 'VELO', condition: 'Top 12500', deadline: '30/06/2025 14:00:00', reward: 6100 },
     { id: 14, tokenName: 'AVAIL', condition: 'Top 12500', deadline: '04/07/2025 14:00:00', reward: 2600 },
