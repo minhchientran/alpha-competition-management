@@ -15,7 +15,7 @@ const MysteryBox: React.FC<MysteryBoxProps> = ({ onClose }) => {
         // Generate a random 8-character gift code
         // const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
         // return Array.from({ length: 8 }, () => chars[Math.floor(Math.random() * chars.length)]).join('');
-        return 'VVAUY5DT';
+        return 'KKAFXXFO';
     });
 
     // Generate random position
