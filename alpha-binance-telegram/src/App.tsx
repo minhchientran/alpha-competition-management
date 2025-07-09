@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import CompetitionTable from "./components/CompetitionTable";
+import LibreChat from "./components/LibreChat";
 // import MysteryBox from "./components/MysteryBox";
 
 function App() {
@@ -8,6 +9,7 @@ function App() {
     const stored = localStorage.getItem('theme');
     return stored ? stored : 'dark';
   });
+  const [showLibreChat, setShowLibreChat] = useState(false);
   // const [showMysteryBox, setShowMysteryBox] = useState(false);
 
   useEffect(() => {
@@ -53,10 +55,15 @@ function App() {
     setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
   };
 
+  const toggleLibreChat = () => {
+    setShowLibreChat(prev => !prev);
+  };
+
   return (
     <div className="min-h-screen p-2 wrapper-project">
       <main className="max-w-md mx-auto p-4">
-        <div className="flex justify-end mb-2">
+        <div className="flex justify-between items-center mb-2">
+          <LibreChat isOpen={showLibreChat} onToggle={toggleLibreChat} />
           <button
             onClick={toggleTheme}
             className="theme-toggle-btn"
