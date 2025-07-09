@@ -67,21 +67,27 @@ const LibreChat: React.FC<LibreChatProps> = ({ isOpen, onToggle }) => {
         try {
             const chatMessages = [...messages, userMessage].map(m => ({ role: m.role, content: m.content }));
 
-            // Use Gemini API endpoint
-            const response = await fetch('/api/gemini-chat', {
+            // Call Gemini API directly from frontend
+            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${selectedModel}:generateContent?key=${import.meta.env.VITE_GEMINI_API_KEY}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    messages: chatMessages,
-                    model: selectedModel,
+                    contents: chatMessages.map(msg => ({
+                        role: msg.role === 'user' ? 'user' : 'model',
+                        parts: [{ text: msg.content }]
+                    })),
+                    generationConfig: {
+                        maxOutputTokens: 1000,
+                        temperature: 0.7,
+                    },
                 })
             });
 
-            if (!response.ok) throw new Error('Lỗi yêu cầu, hãy liên hệ assmin');
+            if (!response.ok) throw new Error('Gemini API request failed');
             const data = await response.json();
-            const aiContent = data.message || 'Tôi bị ngu.';
+            const aiContent = data.candidates?.[0]?.content?.parts?.[0]?.text || 'Muốn hỏi gì thì nạp tiền vào donate cho ta.';
 
             const assistantMessage: Message = {
                 id: (Date.now() + 1).toString(),
@@ -94,7 +100,7 @@ const LibreChat: React.FC<LibreChatProps> = ({ isOpen, onToggle }) => {
             console.error('Chat API Error:', error);
             const errorMessage: Message = {
                 id: (Date.now() + 1).toString(),
-                content: 'Tôi bị ngu.',
+                content: 'Muốn hỏi gì thì nạp tiền vào donate cho ta.',
                 role: 'assistant',
                 timestamp: new Date()
             };
