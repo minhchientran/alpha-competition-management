@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import CompetitionTable from "./components/CompetitionTable";
 import AlphaSoonTable from "./components/AlphaSoonTable";
-import LibreChat from "./components/LibreChat";
+// import LibreChat from "./components/LibreChat";
+
+
 // import MysteryBox from "./components/MysteryBox";
 
 function App() {
@@ -10,7 +12,8 @@ function App() {
     const stored = localStorage.getItem('theme');
     return stored ? stored : 'dark';
   });
-  const [showLibreChat, setShowLibreChat] = useState(false);
+  // const [showLibreChat, setShowLibreChat] = useState(false);
+
   const [currentMode, setCurrentMode] = useState<'competition' | 'alphaSoon'>('competition');
   // const [showMysteryBox, setShowMysteryBox] = useState(false);
 
@@ -57,9 +60,9 @@ function App() {
     setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
   };
 
-  const toggleLibreChat = () => {
-    setShowLibreChat(prev => !prev);
-  };
+  // const toggleLibreChat = () => {
+  //   setShowLibreChat(prev => !prev);
+  // };
 
   const toggleMode = () => {
     setCurrentMode(prev => prev === 'competition' ? 'alphaSoon' : 'competition');
@@ -99,7 +102,7 @@ function App() {
         </button>
       )}
       {/* <div className="ai-chat-container"><LibreChat isOpen={showLibreChat} onToggle={toggleLibreChat} /></div> */}
-      
+
       {/* Mystery Box Giveaway - only show if not dismissed */}
       {/* {showMysteryBox && (
         <MysteryBox onClose={handleMysteryBoxClose} />
