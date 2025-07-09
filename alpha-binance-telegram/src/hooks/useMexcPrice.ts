@@ -28,7 +28,7 @@ export const useMexcPrice = (symbol: string) => {
             if (data?.data?.[0]?.last) {
                 const parsedPrice = parseFloat(data.data[0].last);
                 const parsedChangeRate = parseFloat(data.data[0].change_rate);
-                
+
                 if (Number.isFinite(parsedPrice)) {
                     setPrice(parsedPrice);
                     setChangeRate(Number.isFinite(parsedChangeRate) ? parsedChangeRate : null);
