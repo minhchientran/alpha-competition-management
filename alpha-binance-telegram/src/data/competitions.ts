@@ -29,6 +29,7 @@ export const competitionsData: Competition[] = [
 ];
 
 export const alphaSoonData: AlphaSoon[] = [
-    { id: 1, tokenName: 'Giants Protocol (G)', type: 'IDO', date: '11/07/2025 15:30:00', reward: '300', points: '140' },
-    { id: 2, tokenName: 'Mantle (MNT)', type: 'AIRDROP', date1: '11/07/2025 15:30:00', date2: '12/07/2025 15:30:00', reward: '300', point1: '210', point2: '140' },
+    { id: 1, tokenName: 'G', type: 'AIRDROP2', date: '11/07/2025', reward: '', points: '' },
+    { id: 2, tokenName: 'TALE', type: 'AIRDROP2', date: '11/07/2025', reward: '', points: '' },
+    { id: 3, tokenName: 'VELVET', type: 'IDO', date: '10/07/2025 15:00:00', reward: '', points: '' },
 ]; 

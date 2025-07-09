@@ -22,7 +22,7 @@ const LibreChat: React.FC<LibreChatProps> = ({ isOpen, onToggle }) => {
     const [messages, setMessages] = useState<Message[]>([
         {
             id: '1',
-            content: 'Xin chào, ta là Gia Cát Lượng, muốn hỏi gì hỏi đi?',
+            content: 'Xin chào, tôi là Kiệt, kiệt gì tôi cũng bắt, bạn muốn hỏi tôi điều gì?',
             role: 'assistant',
             timestamp: new Date()
         }
@@ -100,7 +100,7 @@ const LibreChat: React.FC<LibreChatProps> = ({ isOpen, onToggle }) => {
             console.error('Chat API Error:', error);
             const errorMessage: Message = {
                 id: (Date.now() + 1).toString(),
-                content: 'Muốn hỏi gì thì nạp tiền vào donate cho ta.',
+                content: 'Hiện tại bạn không thể sử dụng Kiệt pro vì dev cái trang này nghèo chưa mua được bản quyền.',
                 role: 'assistant',
                 timestamp: new Date()
             };
@@ -122,7 +122,7 @@ const LibreChat: React.FC<LibreChatProps> = ({ isOpen, onToggle }) => {
         return (
             <button
                 onClick={onToggle}
-                className="ai-chat-fab ai-chat-fab-inline"
+                className="ai-chat-fab ai-chat-fab-inline mode-toggle-btn"
                 title="Open AI Chat"
                 type="button"
                 style={{ position: 'static', marginLeft: 8 }}
@@ -140,7 +140,7 @@ const LibreChat: React.FC<LibreChatProps> = ({ isOpen, onToggle }) => {
             <div className="ai-chat-header">
                 <div className="ai-chat-header-title">
                     <span className="ai-chat-header-icon">🤖</span>
-                    <span className="ai-chat-header-text">Mr.Gia cát</span>
+                    <span className="ai-chat-header-text">Mr.Kiệt</span>
                 </div>
                 <div className="ai-chat-header-actions" style={{ gap: 8 }}>
                     <select

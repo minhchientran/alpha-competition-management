@@ -11,7 +11,10 @@ function App() {
     return stored ? stored : 'dark';
   });
   const [showLibreChat, setShowLibreChat] = useState(false);
-  const [currentMode, setCurrentMode] = useState<'competition' | 'alphaSoon'>('competition');
+  const [currentMode, setCurrentMode] = useState<'competition' | 'alphaSoon'>(() => {
+    const stored = localStorage.getItem('currentMode');
+    return stored === 'alphaSoon' ? 'alphaSoon' : 'competition';
+  });
   // const [showMysteryBox, setShowMysteryBox] = useState(false);
 
   useEffect(() => {
@@ -26,6 +29,10 @@ function App() {
     }
     localStorage.setItem('theme', theme);
   }, [theme]);
+
+  useEffect(() => {
+    localStorage.setItem('currentMode', currentMode);
+  }, [currentMode]);
 
   const handleScroll = () => {
     setShowBackToTop(window.scrollY > 100);
@@ -68,16 +75,15 @@ function App() {
   return (
     <div className="min-h-screen p-2 wrapper-project">
       <main className="max-w-md mx-auto p-4">
-        <div className="flex justify-between items-center mb-2">
-          <LibreChat isOpen={showLibreChat} onToggle={toggleLibreChat} />
-          <div className="flex items-center gap-2">
-            {/* <button
+        <div className=" flex justify-between items-center mb-2">
+            <button
               onClick={toggleMode}
               className="mode-toggle-btn px-3 py-1 text-sm font-medium rounded border transition-colors bg-blue-500 text-white border-blue-500 hover:bg-blue-600"
               title="Toggle mode"
             >
-              {currentMode === 'competition' ? 'Alpha Soon' : 'Competition'}
-            </button> */}
+              {currentMode === 'competition' ? 'Alpha mode' : 'Competition mode'}
+            </button>
+          <div className="flex items-center gap-2">
             <button
               onClick={toggleTheme}
               className="theme-toggle-btn"
@@ -93,17 +99,19 @@ function App() {
       {showBackToTop && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-5 right-5 z-50 bg-gray-700 hover:bg-gray-600 text-white font-bold py-3 px-5 rounded-full shadow-lg"
+          className="go-to-top-btn"
           title="Go to top"
         >
           ↑
         </button>
       )}
+        <LibreChat isOpen={showLibreChat} onToggle={toggleLibreChat}/>
+
       {/* Mystery Box Giveaway - only show if not dismissed */}
       {/* {showMysteryBox && (
         <MysteryBox onClose={handleMysteryBoxClose} />
       )} */}
-      <div className="copyright-text">© 71 Ambition</div>
+      <div className="copyright-text">© 71 Ambition - ver 2.0.1</div>
     </div>
   );
 }

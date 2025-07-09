@@ -4,7 +4,7 @@ import AlphaSoonRow from "./AlphaSoonRow";
 import Clock from "./Clock";
 import { useDebounce } from "../hooks/useDebounce";
 
-type SortField = 'date' | 'reward' | 'type' | null;
+type SortField = 'date' | 'type' | null;
 type SortDirection = 'asc' | 'desc';
 
 const AlphaSoonTable = () => {
@@ -38,13 +38,13 @@ const AlphaSoonTable = () => {
         }
     };
 
-    const totalReward = useMemo(() => {
+    const totalCount = useMemo(() => {
         if (selectedTypes.includes('all')) {
-            return alphaSoonData.reduce((sum, item) => sum + parseInt(item.reward), 0);
+            return alphaSoonData.length;
         } else {
             return alphaSoonData
                 .filter(item => selectedTypes.includes(item.type))
-                .reduce((sum, item) => sum + parseInt(item.reward), 0);
+                .length;
         }
     }, [selectedTypes]);
 
@@ -58,6 +58,13 @@ const AlphaSoonTable = () => {
             return deadlineDate < today;
         } else if (item.type === 'AIRDROP' && item.date2) {
             const [datePart, timePart] = item.date2.split(' ');
+            const [day, month, year] = datePart.split('/').map(Number);
+            const [hours, minutes, seconds] = timePart ? timePart.split(':').map(Number) : [0, 0, 0];
+            const deadlineDate = new Date(year, month - 1, day, hours, minutes, seconds);
+            const today = new Date();
+            return deadlineDate < today;
+        } else if (item.type === 'AIRDROP2' && item.date) {
+            const [datePart, timePart] = item.date.split(' ');
             const [day, month, year] = datePart.split('/').map(Number);
             const [hours, minutes, seconds] = timePart ? timePart.split(':').map(Number) : [0, 0, 0];
             const deadlineDate = new Date(year, month - 1, day, hours, minutes, seconds);
@@ -93,6 +100,7 @@ const AlphaSoonTable = () => {
                 const getDate = (item: any) => {
                     if (item.type === 'IDO') return item.date;
                     if (item.type === 'AIRDROP') return item.date2;
+                    if (item.type === 'AIRDROP2') return item.date;
                     return '';
                 };
 
@@ -106,9 +114,6 @@ const AlphaSoonTable = () => {
 
                 aValue = parseDate(getDate(a));
                 bValue = parseDate(getDate(b));
-            } else if (sortField === 'reward') {
-                aValue = parseInt(a.reward);
-                bValue = parseInt(b.reward);
             } else if (sortField === 'type') {
                 aValue = a.type;
                 bValue = b.type;
@@ -171,15 +176,6 @@ const AlphaSoonTable = () => {
                         Ngày {getSortIcon('date')}
                     </button>
                     <button
-                        onClick={() => handleSort('reward')}
-                        className={`flex-1 px-3 py-2 text-sm font-medium rounded-lg border transition-colors btn-prize ${sortField === 'reward'
-                            ? 'bg-blue-500 text-white border-blue-500'
-                            : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
-                            }`}
-                    >
-                        Thưởng {getSortIcon('reward')}
-                    </button>
-                    <button
                         onClick={() => handleSort('type')}
                         className={`flex-1 px-3 py-2 text-sm font-medium rounded-lg border transition-colors btn-percentage ${sortField === 'type'
                             ? 'bg-blue-500 text-white border-blue-500'
@@ -219,7 +215,7 @@ const AlphaSoonTable = () => {
                                     : `Tổng (${selectedTypes.length} loại): `
                         }
                     </span>
-                    <span className="font-bold">{totalReward} USDT</span>
+                    <span className="font-bold">{totalCount} kèo</span>
                 </div>
                 <div className="flex items-center gap-2">
                     <button
