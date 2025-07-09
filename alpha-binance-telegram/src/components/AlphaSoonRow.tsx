@@ -69,7 +69,6 @@ const AIRDROPCountdownTimer = ({ date1, date2 }: { date1: string, date2: string 
     }>({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
     const [currentPhase, setCurrentPhase] = useState<'date1' | 'date2'>('date1');
-    const [isDate1Expired, setIsDate1Expired] = useState(false);
 
     useEffect(() => {
         const calculateTimeLeft = () => {
@@ -81,7 +80,6 @@ const AIRDROPCountdownTimer = ({ date1, date2 }: { date1: string, date2: string 
             const [hours1, minutes1, seconds1] = time1Part ? time1Part.split(':').map(Number) : [0, 0, 0];
             const date1Deadline = new Date(year1, month1 - 1, day1, hours1, minutes1, seconds1);
             const isDate1ExpiredNow = date1Deadline < now;
-            setIsDate1Expired(isDate1ExpiredNow);
 
             // Determine which date to countdown to
             let targetDate: Date;
@@ -175,18 +173,6 @@ const AlphaSoonRow = ({ rowData }: AlphaSoonRowProps) => {
     };
 
     const hasExpired = isExpired();
-
-    const getTypeBadge = (type: string) => {
-        const baseClasses = "px-2 py-1 text-xs font-bold rounded";
-        if (type === 'IDO') {
-            return `${baseClasses} bg-blue-500 text-white`;
-        } else if (type === 'AIRDROP') {
-            return `${baseClasses} bg-green-500 text-white`;
-        } else if (type === 'AIRDROP2') {
-            return `${baseClasses} bg-purple-500 text-white`;
-        }
-        return `${baseClasses} bg-gray-500 text-white`;
-    };
 
     return (
         <div className={`border-b border-black pb-3 mb-4`}>
