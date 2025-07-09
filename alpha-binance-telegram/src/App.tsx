@@ -11,10 +11,7 @@ function App() {
     return stored ? stored : 'dark';
   });
   const [showLibreChat, setShowLibreChat] = useState(false);
-  const [currentMode, setCurrentMode] = useState<'competition' | 'alphaSoon'>(() => {
-    const stored = localStorage.getItem('currentMode');
-    return stored === 'alphaSoon' ? 'alphaSoon' : 'competition';
-  });
+  const [currentMode, setCurrentMode] = useState<'competition' | 'alphaSoon'>('competition');
   // const [showMysteryBox, setShowMysteryBox] = useState(false);
 
   useEffect(() => {
@@ -29,10 +26,6 @@ function App() {
     }
     localStorage.setItem('theme', theme);
   }, [theme]);
-
-  useEffect(() => {
-    localStorage.setItem('currentMode', currentMode);
-  }, [currentMode]);
 
   const handleScroll = () => {
     setShowBackToTop(window.scrollY > 100);
@@ -99,14 +92,14 @@ function App() {
       {showBackToTop && (
         <button
           onClick={scrollToTop}
-          className="go-to-top-btn"
+          className="fixed bottom-5 right-5 z-50 bg-gray-700 hover:bg-gray-600 text-white font-bold py-3 px-5 rounded-full shadow-lg"
           title="Go to top"
         >
           ↑
         </button>
       )}
-        <LibreChat isOpen={showLibreChat} onToggle={toggleLibreChat}/>
-
+      {/* <div className="ai-chat-container"><LibreChat isOpen={showLibreChat} onToggle={toggleLibreChat} /></div> */}
+      
       {/* Mystery Box Giveaway - only show if not dismissed */}
       {/* {showMysteryBox && (
         <MysteryBox onClose={handleMysteryBoxClose} />
