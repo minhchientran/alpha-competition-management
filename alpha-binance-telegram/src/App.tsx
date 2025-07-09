@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import CompetitionTable from "./components/CompetitionTable";
+import AlphaSoonTable from "./components/AlphaSoonTable";
 import LibreChat from "./components/LibreChat";
 // import MysteryBox from "./components/MysteryBox";
 
@@ -10,6 +11,7 @@ function App() {
     return stored ? stored : 'dark';
   });
   const [showLibreChat, setShowLibreChat] = useState(false);
+  const [currentMode, setCurrentMode] = useState<'competition' | 'alphaSoon'>('competition');
   // const [showMysteryBox, setShowMysteryBox] = useState(false);
 
   useEffect(() => {
@@ -59,20 +61,33 @@ function App() {
     setShowLibreChat(prev => !prev);
   };
 
+  const toggleMode = () => {
+    setCurrentMode(prev => prev === 'competition' ? 'alphaSoon' : 'competition');
+  };
+
   return (
     <div className="min-h-screen p-2 wrapper-project">
       <main className="max-w-md mx-auto p-4">
         <div className="flex justify-between items-center mb-2">
           <LibreChat isOpen={showLibreChat} onToggle={toggleLibreChat} />
-          <button
-            onClick={toggleTheme}
-            className="theme-toggle-btn"
-            title="Toggle dark/light mode"
-          >
-            {theme === 'dark' ? '🌙 Dark' : '☀️ Light'}
-          </button>
+          <div className="flex items-center gap-2">
+            {/* <button
+              onClick={toggleMode}
+              className="mode-toggle-btn px-3 py-1 text-sm font-medium rounded border transition-colors bg-blue-500 text-white border-blue-500 hover:bg-blue-600"
+              title="Toggle mode"
+            >
+              {currentMode === 'competition' ? 'Alpha Soon' : 'Competition'}
+            </button> */}
+            <button
+              onClick={toggleTheme}
+              className="theme-toggle-btn"
+              title="Toggle dark/light mode"
+            >
+              {theme === 'dark' ? '🌙 Dark' : '☀️ Light'}
+            </button>
+          </div>
         </div>
-        <CompetitionTable />
+        {currentMode === 'competition' ? <CompetitionTable /> : <AlphaSoonTable />}
       </main>
 
       {showBackToTop && (

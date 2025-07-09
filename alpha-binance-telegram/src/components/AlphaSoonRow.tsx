@@ -1,0 +1,155 @@
+import { useEffect, useState } from "react";
+import type { AlphaSoon } from "../data/competitions";
+
+interface AlphaSoonRowProps {
+    rowData: AlphaSoon;
+}
+
+const CountdownTimer = ({ deadline }: { deadline: string }) => {
+    const [timeLeft, setTimeLeft] = useState<{
+        days: number;
+        hours: number;
+        minutes: number;
+        seconds: number;
+    }>({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+
+    useEffect(() => {
+        const calculateTimeLeft = () => {
+            // Parse datetime format: "DD/MM/YYYY HH:MM:SS"
+            const [datePart, timePart] = deadline.split(' ');
+            const [day, month, year] = datePart.split('/').map(Number);
+            const [hours, minutes, seconds] = timePart ? timePart.split(':').map(Number) : [0, 0, 0];
+
+            const deadlineDate = new Date(year, month - 1, day, hours, minutes, seconds);
+            const now = new Date();
+            const difference = deadlineDate.getTime() - now.getTime();
+
+            if (difference > 0) {
+                const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+                setTimeLeft({ days, hours, minutes, seconds });
+            } else {
+                setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+            }
+        };
+
+        calculateTimeLeft();
+        const timer = setInterval(calculateTimeLeft, 1000);
+
+        return () => clearInterval(timer);
+    }, [deadline]);
+
+    const isExpired = timeLeft.days === 0 && timeLeft.hours === 0 && timeLeft.minutes === 0 && timeLeft.seconds === 0;
+
+    if (isExpired) {
+        return <div className="text-red-500 text-sm font-bold flex justify-end low-20">Hết hạn</div>;
+    }
+
+    return (
+        <div className="text-sm text-gray-600 flex justify-end">
+            <div className="">
+                {timeLeft.days > 0 && <span>{timeLeft.days}d </span>}
+                {timeLeft.hours > 0 && <span>{timeLeft.hours}h </span>}
+                {timeLeft.minutes > 0 && <span>{timeLeft.minutes}m </span>}
+                <span>{timeLeft.seconds}s</span>
+            </div>
+        </div>
+    );
+};
+
+const AlphaSoonRow = ({ rowData }: AlphaSoonRowProps) => {
+    const isExpired = () => {
+        if (rowData.type === 'IDO' && rowData.date) {
+            // Parse datetime format: "DD/MM/YYYY HH:MM:SS"
+            const [datePart, timePart] = rowData.date.split(' ');
+            const [day, month, year] = datePart.split('/').map(Number);
+            const [hours, minutes, seconds] = timePart ? timePart.split(':').map(Number) : [0, 0, 0];
+
+            const deadlineDate = new Date(year, month - 1, day, hours, minutes, seconds);
+            const today = new Date();
+            return deadlineDate < today;
+        } else if (rowData.type === 'AIRDROP' && rowData.date2) {
+            // For AIRDROP, check if the second date has passed
+            const [datePart, timePart] = rowData.date2.split(' ');
+            const [day, month, year] = datePart.split('/').map(Number);
+            const [hours, minutes, seconds] = timePart ? timePart.split(':').map(Number) : [0, 0, 0];
+
+            const deadlineDate = new Date(year, month - 1, day, hours, minutes, seconds);
+            const today = new Date();
+            return deadlineDate < today;
+        }
+        return false;
+    };
+
+    const hasExpired = isExpired();
+
+    const getTypeBadge = (type: string) => {
+        const baseClasses = "px-2 py-1 text-xs font-bold rounded";
+        if (type === 'IDO') {
+            return `${baseClasses} bg-blue-500 text-white`;
+        } else if (type === 'AIRDROP') {
+            return `${baseClasses} bg-green-500 text-white`;
+        }
+        return `${baseClasses} bg-gray-500 text-white`;
+    };
+
+    return (
+        <div className={`border-b border-black pb-3 mb-4`}>
+            <div className="flex justify-between items-baseline mb-2">
+                <div className="flex items-center gap-2">
+                    <h3 className={`token-name font-bold text-2xl ${hasExpired ? '' : 'text-black'}`}>
+                        {rowData.tokenName}
+                    </h3>
+                    <span className={getTypeBadge(rowData.type)}>
+                        {rowData.type}
+                    </span>
+                </div>
+                <div className="text-right">
+                    <div className="font-bold text-lg p-1 rounded normal-prize">
+                        {rowData.reward} USDT
+                    </div>
+                </div>
+            </div>
+            <div className="grid grid-cols-2 text-base ml-4 card-competition-info">
+                {rowData.type === 'IDO' ? (
+                    <>
+                        <div>Ngày</div>
+                        <div className={`text-right ${hasExpired ? 'expired-row' : ''}`}>
+                            {rowData.date}
+                        </div>
+                        <div>Còn lại</div>
+                        <div className="mt-1">
+                            <CountdownTimer deadline={rowData.date || ''} />
+                        </div>
+                        <div>Điểm</div>
+                        <div className="text-right">{rowData.points}</div>
+                    </>
+                ) : (
+                    <>
+                        <div>Ngày bắt đầu</div>
+                        <div className="text-right">{rowData.date1}</div>
+                        <div>Ngày kết thúc</div>
+                        <div className={`text-right ${hasExpired ? 'expired-row' : ''}`}>
+                            {rowData.date2}
+                        </div>
+                        <div>Còn lại</div>
+                        <div className="mt-1">
+                            <CountdownTimer deadline={rowData.date2 || ''} />
+                        </div>
+                        <div>Điểm bắt đầu</div>
+                        <div className="text-right">{rowData.point1}</div>
+                        <div>Điểm kết thúc</div>
+                        <div className="text-right">{rowData.point2}</div>
+                    </>
+                )}
+                <div>Phần thưởng</div>
+                <div className="text-right">{rowData.reward} USDT</div>
+            </div>
+        </div>
+    );
+};
+
+export default AlphaSoonRow; 

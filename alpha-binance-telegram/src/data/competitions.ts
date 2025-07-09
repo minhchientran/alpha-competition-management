@@ -6,6 +6,19 @@ export interface Competition {
     reward: number;
 }
 
+export interface AlphaSoon {
+    id: number;
+    tokenName: string;
+    date?: string;
+    date1?: string;
+    date2?: string;
+    type: string;
+    reward: string;
+    points?: string;
+    point1?: string;
+    point2?: string;
+}
+
 export const competitionsData: Competition[] = [
     { id: 17, tokenName: 'CARV', condition: 'Top 8300', deadline: '07/07/2025 14:00:00', reward: 360 },
     { id: 18, tokenName: 'REKT', condition: 'Top 12500', deadline: '12/07/2025 20:00:00', reward: 277800000, },
@@ -13,4 +26,9 @@ export const competitionsData: Competition[] = [
     { id: 20, tokenName: 'BGSC', condition: 'Top 12500', deadline: '15/07/2025 15:30:00', reward: 10900 },
     { id: 21, tokenName: 'MPLX', condition: 'Top 12500', deadline: '20/07/2025 20:00:00', reward: 713 },
     { id: 22, tokenName: 'OIK', condition: 'Top 5000', deadline: '22/07/2025 20:00:00', reward: 1000 },
+];
+
+export const alphaSoonData: AlphaSoon[] = [
+    { id: 1, tokenName: 'Giants Protocol (G)', type: 'IDO', date: '11/07/2025 15:30:00', reward: '300', points: '140' },
+    { id: 2, tokenName: 'Mantle (MNT)', type: 'AIRDROP', date1: '11/07/2025 15:30:00', date2: '12/07/2025 15:30:00', reward: '300', point1: '210', point2: '140' },
 ]; 
