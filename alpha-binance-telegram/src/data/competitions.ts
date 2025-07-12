@@ -33,6 +33,6 @@ export const competitionsData: Competition[] = [
 ];
 
 export const alphaSoonData: AlphaSoon[] = [
-    { id: 1, tokenName: 'G', type: 'AIRDROP2', date: '11/07/2025 15:00:00', reward: '', points: '' },
-    { id: 2, tokenName: 'TALE', type: 'AIRDROP2', date: '11/07/2025 17:00:00', reward: '500', points: '190' },
+    { id: 1, tokenName: 'G', type: 'AIRDROP2', date: '12/07/2025 20:00:00', reward: '88000', points: '150' },
+    { id: 2, tokenName: 'C', type: 'AIRDROP2', date: '14/07/2025', reward: '', points: '' },
 ]; 
