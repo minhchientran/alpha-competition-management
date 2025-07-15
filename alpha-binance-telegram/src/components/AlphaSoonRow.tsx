@@ -73,7 +73,7 @@ const AIRDROPCountdownTimer = ({ date1, date2 }: { date1: string, date2: string 
     useEffect(() => {
         const calculateTimeLeft = () => {
             const now = new Date();
-            
+
             // Check if date1 has expired
             const [date1Part, time1Part] = date1.split(' ');
             const [day1, month1, year1] = date1Part.split('/').map(Number);
@@ -204,7 +204,7 @@ const AlphaSoonRow = ({ rowData }: AlphaSoonRowProps) => {
                     </>
                 ) : (
                     <>
-                        <div>Ngày claim 1</div>
+                        <div>◉ Giai đoạn 1</div>
                         <div className={`text-right ${(() => {
                             if (!rowData.date1) return '';
                             const [datePart, timePart] = rowData.date1.split(' ');
@@ -216,9 +216,9 @@ const AlphaSoonRow = ({ rowData }: AlphaSoonRowProps) => {
                         })()}`}>
                             {rowData.date1 || 'Chưa có'}
                         </div>
-                        <div>Điểm claim 1</div>
+                        <div>Điểm ⇨</div>
                         <div className="text-right">{rowData.point1 || 'Chưa có'}</div>
-                        <div>Ngày claim 2</div>
+                        <div>◉ Giai đoạn 2</div>
                         <div className={`text-right ${(() => {
                             if (!rowData.date2) return '';
                             const [datePart, timePart] = rowData.date2.split(' ');
@@ -230,14 +230,14 @@ const AlphaSoonRow = ({ rowData }: AlphaSoonRowProps) => {
                         })()}`}>
                             {rowData.date2 || 'Chưa có'}
                         </div>
-                        <div>Điểm claim 2</div>
+                        <div>Điểm ⇨</div>
                         <div className="text-right">{rowData.point2 || 'Chưa có'}</div>
                         <div>Còn lại</div>
                         <div className="mt-1">
                             <AIRDROPCountdownTimer date1={rowData.date1 || ''} date2={rowData.date2 || ''} />
                         </div>
-                        
-                        
+
+
                     </>
                 )}
                 <div>Phần thưởng</div>
