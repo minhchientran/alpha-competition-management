@@ -36,6 +36,6 @@ export const alphaSoonData: AlphaSoon[] = [
     { id: 1, tokenName: 'ERA', type: 'AIRDROP', date1: '17/07/2025 20:30:00', date2: '18/07/2025 14:30:00', reward: '150', point1: '224', point2: '140' },
     { id: 4, tokenName: 'TAKER', type: 'AIRDROP2', date: '18/07/2025 23:00:00', reward: '', points: '' },
     { id: 5, tokenName: 'ESPORTS', type: 'AIRDROP2', date: '19/07/2025 23:00:00', reward: '', points: '' },
-    { id: 6, tokenName: 'TA', type: 'AIRDROP2', date: '21/07/2025 23:00:00', reward: '', points: '' },
+    { id: 6, tokenName: 'TA', type: 'AIRDROP2', date: '21/07/2025 14:00:00', reward: '', points: '' },
     { id: 7, tokenName: 'ASP', type: 'AIRDROP2', date: '24/07/2025 23:00:00', reward: '', points: '' },
 ]; 
