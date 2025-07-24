@@ -42,8 +42,10 @@ export const alphaSoonData: AlphaSoon[] = [
     // { id: 4, tokenName: 'G', type: 'AIRDROP2', date: '18/07/2025 20:00:00', reward: '88000', points: '165' },
     // { id: 5, tokenName: 'ESPORTS', type: 'AIRDROP2', date: '19/07/2025 23:00:00', reward: '', points: '' },
     // { id: 6, tokenName: 'TA', type: 'AIRDROP2', date: '21/07/2025 14:00:00', reward: '', points: '' },
-    { id: 7, tokenName: 'ZKWASM', type: 'IDO', date: '22/07/2025 15:00:00', reward: '', points: '225' },
-    { id: 8, tokenName: 'ZALA', type: 'AIRDROP2', date: '22/07/2025 23:00:00', reward: '', points: '' },
-    { id: 9, tokenName: 'COA', type: 'AIRDROP2', date: '23/07/2025 23:00:00', reward: '', points: '' },
+    // { id: 7, tokenName: 'ZKWASM', type: 'IDO', date: '22/07/2025 15:00:00', reward: '', points: '225' },
+    // { id: 8, tokenName: 'ZALA', type: 'AIRDROP2', date: '22/07/2025 23:00:00', reward: '', points: '' },
+    // { id: 9, tokenName: 'COA', type: 'AIRDROP2', date: '23/07/2025 23:00:00', reward: '', points: '' },
     { id: 10, tokenName: 'ASP', type: 'AIRDROP2', date: '24/07/2025 23:00:00', reward: '', points: '' },
+    { id: 11, tokenName: 'LN', type: 'AIRDROP2', date: '25/07/2025 23:00:00', reward: '', points: '' },
+    { id: 12, tokenName: 'BTR', type: 'AIRDROP2', date: '', reward: '', points: '' },
 ]; 
