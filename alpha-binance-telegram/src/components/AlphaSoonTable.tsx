@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { alphaSoonData } from "../data/competitions";
 import AlphaSoonRow from "./AlphaSoonRow";
 import Clock from "./Clock";
@@ -8,14 +8,57 @@ type SortField = 'date' | 'type' | null;
 type SortDirection = 'asc' | 'desc';
 
 const AlphaSoonTable = () => {
-    const [searchTerm, setSearchTerm] = useState('');
-    const [sortField, setSortField] = useState<SortField>(null);
-    const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
-    const [hideExpired, setHideExpired] = useState(false);
-    const [selectedTypes, setSelectedTypes] = useState<string[]>(['all']);
-    const [showTypeFilter, setShowTypeFilter] = useState(false);
+    const [searchTerm, setSearchTerm] = useState(() => {
+        const stored = localStorage.getItem('alphaSoon_searchTerm');
+        return stored || '';
+    });
+    const [sortField, setSortField] = useState<SortField>(() => {
+        const stored = localStorage.getItem('alphaSoon_sortField');
+        return stored === 'date' || stored === 'type' ? stored : null;
+    });
+    const [sortDirection, setSortDirection] = useState<SortDirection>(() => {
+        const stored = localStorage.getItem('alphaSoon_sortDirection');
+        return stored === 'desc' ? 'desc' : 'asc';
+    });
+    const [hideExpired, setHideExpired] = useState(() => {
+        const stored = localStorage.getItem('alphaSoon_hideExpired');
+        return stored === 'true';
+    });
+    const [selectedTypes, setSelectedTypes] = useState<string[]>(() => {
+        const stored = localStorage.getItem('alphaSoon_selectedTypes');
+        return stored ? JSON.parse(stored) : ['all'];
+    });
+    const [showTypeFilter, setShowTypeFilter] = useState(() => {
+        const stored = localStorage.getItem('alphaSoon_showTypeFilter');
+        return stored === 'true';
+    });
 
     const debouncedSearchTerm = useDebounce(searchTerm, 300);
+
+    // Save state to localStorage whenever it changes
+    useEffect(() => {
+        localStorage.setItem('alphaSoon_searchTerm', searchTerm);
+    }, [searchTerm]);
+
+    useEffect(() => {
+        localStorage.setItem('alphaSoon_sortField', sortField || '');
+    }, [sortField]);
+
+    useEffect(() => {
+        localStorage.setItem('alphaSoon_sortDirection', sortDirection);
+    }, [sortDirection]);
+
+    useEffect(() => {
+        localStorage.setItem('alphaSoon_hideExpired', hideExpired.toString());
+    }, [hideExpired]);
+
+    useEffect(() => {
+        localStorage.setItem('alphaSoon_selectedTypes', JSON.stringify(selectedTypes));
+    }, [selectedTypes]);
+
+    useEffect(() => {
+        localStorage.setItem('alphaSoon_showTypeFilter', showTypeFilter.toString());
+    }, [showTypeFilter]);
 
     const types = useMemo(() => {
         const uniqueTypes = Array.from(new Set(alphaSoonData.map(item => item.type)));
@@ -142,7 +185,7 @@ const AlphaSoonTable = () => {
     return (
         <div>
             <div className="background-71">
-                <h1 className="text-4xl text-center mb-4 font-bold">Alpha Soon</h1>
+                <h1 className="text-4xl text-center mb-4 font-bold">Alpha Upcoming</h1>
                 <Clock />
             </div>
 

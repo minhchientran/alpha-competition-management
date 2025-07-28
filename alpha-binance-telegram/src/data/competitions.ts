@@ -20,7 +20,7 @@ export interface AlphaSoon {
 }
 
 export const competitionsData: Competition[] = [
-    { id: 20, tokenName: 'BGSC', condition: 'Top 12500', deadline: '15/07/2025 15:30:00', reward: 10900 },
+    // { id: 20, tokenName: 'BGSC', condition: 'Top 12500', deadline: '15/07/2025 15:30:00', reward: 10900 },
     // { id: 22, tokenName: 'OIK', condition: 'Top 5000', deadline: '22/07/2025 20:00:00', reward: 1000 },
     // { id: 23, tokenName: 'M', condition: 'Top 14000', deadline: '24/07/2025 23:00:00', reward: 357 },
     // { id: 24, tokenName: 'IDOL', condition: 'Top 8000', deadline: '24/07/2025 23:00:00', reward: 4750 },
@@ -50,5 +50,6 @@ export const alphaSoonData: AlphaSoon[] = [
     // { id: 12, tokenName: 'PHY', type: 'AIRDROP2', date: '26/07/2025 23:00:00', reward: '', points: '' },
     { id: 12, tokenName: 'DELABS', type: 'IDO', date: '28/07/2025 15:00:00', reward: '', points: '' },
     { id: 13, tokenName: 'TREE', type: 'AIRDROP2', date: '29/07/2025 23:00:00', reward: '', points: '' },
-    { id: 14, tokenName: 'BTR', type: 'AIRDROP2', date: '', reward: '', points: '' },
+    { id: 14, tokenName: 'NAORIS', type: 'AIRDROP2', date: '31/07/2025 23:00:00', reward: '', points: '' },
+    { id: 20, tokenName: 'BTR', type: 'AIRDROP2', date: '', reward: '', points: '' },
 ]; 

@@ -14,7 +14,10 @@ function App() {
   });
   // const [showLibreChat, setShowLibreChat] = useState(false);
 
-  const [currentMode, setCurrentMode] = useState<'competition' | 'alphaSoon'>('competition');
+  const [currentMode, setCurrentMode] = useState<'competition' | 'alphaSoon'>(() => {
+    const stored = localStorage.getItem('currentMode');
+    return stored === 'alphaSoon' ? 'alphaSoon' : 'competition';
+  });
   // const [showMysteryBox, setShowMysteryBox] = useState(false);
 
   useEffect(() => {
@@ -29,6 +32,11 @@ function App() {
     }
     localStorage.setItem('theme', theme);
   }, [theme]);
+
+  // Save currentMode to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('currentMode', currentMode);
+  }, [currentMode]);
 
   const handleScroll = () => {
     setShowBackToTop(window.scrollY > 100);
@@ -72,13 +80,13 @@ function App() {
     <div className="min-h-screen p-2 wrapper-project">
       <main className="max-w-md mx-auto p-4">
         <div className=" flex justify-between items-center mb-2">
-            <button
-              onClick={toggleMode}
-              className="mode-toggle-btn px-3 py-1 text-sm font-medium rounded border transition-colors bg-blue-500 text-white border-blue-500 hover:bg-blue-600"
-              title="Toggle mode"
-            >
-              {currentMode === 'competition' ? 'Alpha mode' : 'Competition mode'}
-            </button>
+          <button
+            onClick={toggleMode}
+            className="mode-toggle-btn px-3 py-1 text-sm font-medium rounded border transition-colors bg-blue-500 text-white border-blue-500 hover:bg-blue-600"
+            title="Toggle mode"
+          >
+            {currentMode === 'competition' ? 'Alpha mode' : 'Competition mode'}
+          </button>
           <div className="flex items-center gap-2">
             <button
               onClick={toggleTheme}

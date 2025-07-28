@@ -11,18 +11,54 @@ const CompetitionTable = () => {
     const [prizes, setPrizes] = useState<Record<number, number>>({});
     const [changeRates, setChangeRates] = useState<Record<number, number | null>>({});
     const [triggerFetch, setTriggerFetch] = useState(0);
-    const [searchTerm, setSearchTerm] = useState('');
-    const [sortField, setSortField] = useState<SortField>(null);
-    const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
-    const [hideExpired, setHideExpired] = useState(false);
+    const [searchTerm, setSearchTerm] = useState(() => {
+        const stored = localStorage.getItem('competition_searchTerm');
+        return stored || '';
+    });
+    const [sortField, setSortField] = useState<SortField>(() => {
+        const stored = localStorage.getItem('competition_sortField');
+        return stored === 'deadline' || stored === 'reward' || stored === 'calculatedPrize' || stored === 'percentageChange' ? stored : null;
+    });
+    const [sortDirection, setSortDirection] = useState<SortDirection>(() => {
+        const stored = localStorage.getItem('competition_sortDirection');
+        return stored === 'desc' ? 'desc' : 'asc';
+    });
+    const [hideExpired, setHideExpired] = useState(() => {
+        const stored = localStorage.getItem('competition_hideExpired');
+        return stored === 'true';
+    });
     const [selectedTokens, setSelectedTokens] = useState<string[]>(() => {
         const stored = localStorage.getItem('selectedTokens');
         return stored ? JSON.parse(stored) : ['all'];
     });
-    const [showTokenFilter, setShowTokenFilter] = useState(false);
+    const [showTokenFilter, setShowTokenFilter] = useState(() => {
+        const stored = localStorage.getItem('competition_showTokenFilter');
+        return stored === 'true';
+    });
 
     // Debounce search term with 300ms delay
     const debouncedSearchTerm = useDebounce(searchTerm, 300);
+
+    // Save state to localStorage whenever it changes
+    useEffect(() => {
+        localStorage.setItem('competition_searchTerm', searchTerm);
+    }, [searchTerm]);
+
+    useEffect(() => {
+        localStorage.setItem('competition_sortField', sortField || '');
+    }, [sortField]);
+
+    useEffect(() => {
+        localStorage.setItem('competition_sortDirection', sortDirection);
+    }, [sortDirection]);
+
+    useEffect(() => {
+        localStorage.setItem('competition_hideExpired', hideExpired.toString());
+    }, [hideExpired]);
+
+    useEffect(() => {
+        localStorage.setItem('competition_showTokenFilter', showTokenFilter.toString());
+    }, [showTokenFilter]);
 
     const handlePriceUpdate = useCallback((id: number, prize: number, changeRate?: number | null) => {
         setPrizes(prev => ({ ...prev, [id]: prize }));
